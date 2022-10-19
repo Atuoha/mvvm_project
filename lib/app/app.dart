@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class App extends StatefulWidget{
-  const App._interval(); // private named constructor
-  static const  App instance = App._interval(); // instance
+   App._interval(); // private named constructor
+  static final  App instance = App._interval(); // instance
   factory App()=>instance; // factory
+  String title = "Good";
 
 
   @override
