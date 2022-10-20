@@ -4,6 +4,7 @@ import 'package:mvvm_project/presentation/authentication/login.dart';
 import 'package:mvvm_project/presentation/authentication/register.dart';
 import 'package:mvvm_project/presentation/main/main.dart';
 import 'package:mvvm_project/presentation/main/store_details.dart';
+import 'package:mvvm_project/presentation/resources/string_manager.dart';
 import 'package:mvvm_project/presentation/splash/splash.dart';
 import '../onboarding/onboarding.dart';
 
@@ -21,25 +22,39 @@ class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case RouteManager.splashRoute:
-        return MaterialPageRoute(builder: (_) => const SplashScreen());
+        return MaterialPageRoute(
+          builder: (_) => const SplashScreen(),
+        );
 
       case RouteManager.onBoardingRoute:
-        return MaterialPageRoute(builder: (_) => const OnBoardingScreen());
+        return MaterialPageRoute(
+          builder: (_) => const OnBoardingScreen(),
+        );
 
       case RouteManager.loginRoute:
-        return MaterialPageRoute(builder: (_) => const LoginScreen());
+        return MaterialPageRoute(
+          builder: (_) => const LoginScreen(),
+        );
 
       case RouteManager.registerRoute:
-        return MaterialPageRoute(builder: (_) => const RegisterScreen());
+        return MaterialPageRoute(
+          builder: (_) => const RegisterScreen(),
+        );
 
       case RouteManager.forgotPasswordRoute:
-        return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
+        return MaterialPageRoute(
+          builder: (_) => const ForgotPasswordScreen(),
+        );
 
       case RouteManager.mainScreenRoute:
-        return MaterialPageRoute(builder: (_) => const MainScreen());
+        return MaterialPageRoute(
+          builder: (_) => const MainScreen(),
+        );
 
       case RouteManager.detailScreenRoute:
-        return MaterialPageRoute(builder: (_) => const StoreDetails());
+        return MaterialPageRoute(
+          builder: (_) => const StoreDetails(),
+        );
 
       default:
         return unDefinedRoute();
@@ -49,8 +64,16 @@ class RouteGenerator {
   static Route<dynamic> unDefinedRoute() {
     return MaterialPageRoute(
       builder: (_) => Scaffold(
-        appBar: AppBar(title: const Text('404! Page unknown')),
-        body: const Center(child: Text('Opps! Page is unknown!')),
+        appBar: AppBar(
+          title: const Text(AppString.unknownPage),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/404.png'),
+            const Text(AppString.unknownPage),
+          ],
+        ),
       ),
     );
   }
