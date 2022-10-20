@@ -39,7 +39,51 @@ ThemeData getAppTheme() {
     ),
 
     // input decoration theme
-    inputDecorationTheme: InputDecorationTheme(),
+    inputDecorationTheme: InputDecorationTheme(
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppSize.s8),
+        borderSide: BorderSide(
+          color: ColorManager.grey,
+          width: AppSize.s2,
+        ),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppSize.s8),
+        borderSide: BorderSide(
+          color: ColorManager.grey,
+          width: AppSize.s2,
+        ),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppSize.s8),
+        borderSide: BorderSide(
+          color: ColorManager.error,
+          width: AppSize.s2,
+        ),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppSize.s8),
+        borderSide: BorderSide(
+          color: ColorManager.error,
+          width: AppSize.s2,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppSize.s8),
+        borderSide: BorderSide(
+          color: ColorManager.primaryColor,
+          width: AppSize.s2,
+        ),
+      ),
+      labelStyle: getMediumStyle(color: ColorManager.darkGrey),
+      hintStyle: getRegularStyle(color: ColorManager.grey1),
+      contentPadding: const EdgeInsets.all(AppPadding.p8),
+      errorStyle: getRegularStyle(color: ColorManager.error),
+      suffixIconColor: ColorManager.primaryColor,
+      suffixStyle: getRegularStyle(color: ColorManager.grey1),
+      prefixIconColor: ColorManager.primaryColor,
+      prefixStyle: getRegularStyle(color: ColorManager.grey1),
+    ),
 
     // app bar theme
     appBarTheme: AppBarTheme(
