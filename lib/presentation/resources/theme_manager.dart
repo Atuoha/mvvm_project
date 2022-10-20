@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm_project/presentation/styles_manager.dart';
-import 'package:mvvm_project/presentation/values_manager.dart';
+import 'styles_manager.dart';
+import 'values_manager.dart';
 import 'color_manager.dart';
 import 'font_manager.dart';
 

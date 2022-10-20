@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../presentation/theme_manager.dart';
+import '../presentation/resources/theme_manager.dart';
 
 class App extends StatefulWidget {
   App._interval(); // private named constructor
