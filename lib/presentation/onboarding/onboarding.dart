@@ -10,6 +10,13 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+
+      body: Column(
+        children: [
+          Text('ON BOARDING')
+        ],
+      ),
+    );
   }
 }
