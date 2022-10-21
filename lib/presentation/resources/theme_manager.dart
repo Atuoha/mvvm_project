@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'styles_manager.dart';
 import 'values_manager.dart';
 import 'color_manager.dart';
@@ -12,12 +13,14 @@ ThemeData getAppTheme() {
     disabledColor: ColorManager.grey1,
     splashColor: ColorManager.primaryOpacity,
 
+
     // card theme
     cardTheme: CardTheme(
       color: ColorManager.white,
       shadowColor: ColorManager.grey,
       elevation: AppSize.s4,
     ),
+
 
     // button theme
     buttonTheme: ButtonThemeData(
@@ -26,6 +29,7 @@ ThemeData getAppTheme() {
       disabledColor: ColorManager.grey1,
       splashColor: ColorManager.primaryOpacity,
     ),
+
 
     // elevated button theme
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -37,6 +41,7 @@ ThemeData getAppTheme() {
         textStyle: getRegularStyle(color: ColorManager.white),
       ),
     ),
+
 
     // input decoration theme
     inputDecorationTheme: InputDecorationTheme(
@@ -85,6 +90,7 @@ ThemeData getAppTheme() {
       prefixStyle: getRegularStyle(color: ColorManager.grey1),
     ),
 
+
     // app bar theme
     appBarTheme: AppBarTheme(
       color: ColorManager.primaryColor,
@@ -95,7 +101,11 @@ ThemeData getAppTheme() {
         color: ColorManager.darkPrimary,
         fontSize: FontSize.s16,
       ),
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+      ),
     ),
+
 
     // text theme
     textTheme: TextTheme(

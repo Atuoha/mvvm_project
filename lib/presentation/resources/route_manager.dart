@@ -7,6 +7,7 @@ import 'package:mvvm_project/presentation/main/store_details.dart';
 import 'package:mvvm_project/presentation/resources/string_manager.dart';
 import 'package:mvvm_project/presentation/splash/splash.dart';
 import '../onboarding/onboarding.dart';
+import 'assets_manager.dart';
 
 class RouteManager {
   static const splashRoute = '/';
@@ -70,7 +71,7 @@ class RouteGenerator {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/404.png'),
+            Image.asset(ImageAsset.unknownRouteImage),
             const Text(AppString.unknownPage),
           ],
         ),
