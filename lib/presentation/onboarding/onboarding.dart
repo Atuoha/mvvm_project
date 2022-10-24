@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-
+import '../components/bottomsheet_widget.dart';
+import '../components/onboarding_page.dart';
+import '../components/slider_object.dart';
 import '../resources/assets_manager.dart';
 import '../resources/string_manager.dart';
-import '../resources/values_manager.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -13,7 +14,6 @@ class OnBoardingScreen extends StatefulWidget {
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   var currentSlideIndex = 0;
-
   final PageController _pageController = PageController(initialPage: 0);
 
   final List<SliderObject> slides = [
@@ -39,11 +39,29 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     ),
   ];
 
+  void skipOnBoarding() {
+    setState(() {
+      currentSlideIndex = slides.length - 1;
+    });
+  }
+
+  void toNextSlide() {
+    setState(() {
+      currentSlideIndex += 1;
+    });
+  }
+
+  void toPreviousSlide() {
+    setState(() {
+      currentSlideIndex -= 1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // bottomSheet: Row,
       body: PageView.builder(
+        controller: _pageController,
         onPageChanged: (value) {
           setState(() {
             currentSlideIndex = value;
@@ -55,49 +73,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           currentSlideIndex: currentSlideIndex,
         ),
       ),
+      bottomSheet: BottomSheetWidget(
+        slides: slides,
+        currentSlideIndex: currentSlideIndex,
+        skipOnBoarding: skipOnBoarding,
+        toPreviousSlide: toPreviousSlide,
+        toNextSlide: toNextSlide,
+      ),
     );
   }
-}
-
-class OnBoardingPage extends StatelessWidget {
-  const OnBoardingPage({
-    Key? key,
-    required this.slides,
-    required this.currentSlideIndex,
-  }) : super(key: key);
-
-  final List<SliderObject> slides;
-  final int currentSlideIndex;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          slides[currentSlideIndex].title,
-          style: Theme.of(context).textTheme.headline1,
-        ),
-        const SizedBox(height: AppSize.s12),
-        Text(
-          slides[currentSlideIndex].subTitle,
-          style: Theme.of(context).textTheme.subtitle1,
-        ),
-        const SizedBox(height: AppSize.s12),
-        Image.asset(slides[currentSlideIndex].imgUrl),
-      ],
-    );
-  }
-}
-
-class SliderObject {
-  final String title;
-  final String subTitle;
-  final String imgUrl;
-
-  SliderObject({
-    required this.title,
-    required this.subTitle,
-    required this.imgUrl,
-  });
 }
