@@ -47,12 +47,24 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   void toNextSlide() {
     var page = currentSlideIndex += 1;
-    _pageController.animateToPage(page, duration: const Duration(seconds:3), curve: Curves.easeIn);
+    _pageController.animateToPage(
+      page,
+      duration: const Duration(seconds: 2),
+      curve: Curves.easeIn,
+    );
   }
 
   void toPreviousSlide() {
     var page = currentSlideIndex -= 1;
-    _pageController.animateToPage(page, duration: const  Duration(seconds:3), curve: Curves.easeIn);
+    _pageController.animateToPage(
+      page,
+      duration: const Duration(seconds: 2),
+      curve: Curves.easeIn,
+    );
+  }
+
+  void launch(){
+    Navigator.of(context).pushReplacementNamed('');
   }
 
   @override
@@ -77,6 +89,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         skipOnBoarding: skipOnBoarding,
         toPreviousSlide: toPreviousSlide,
         toNextSlide: toNextSlide,
+        launch: launch,
       ),
     );
   }

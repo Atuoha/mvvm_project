@@ -14,6 +14,7 @@ class BottomSheetWidget extends StatelessWidget {
     required this.skipOnBoarding,
     required this.toPreviousSlide,
     required this.toNextSlide,
+    required this.launch,
   });
 
   final List<SliderObject> slides;
@@ -21,6 +22,7 @@ class BottomSheetWidget extends StatelessWidget {
   final Function skipOnBoarding;
   final Function toNextSlide;
   final Function toPreviousSlide;
+  final Function launch;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +33,9 @@ class BottomSheetWidget extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
-              onPressed: () => skipOnBoarding(),
+              onPressed: () =>  currentSlideIndex != slides.length - 1?skipOnBoarding(): launch(),
               child: Text(
-                'Skip',
+                currentSlideIndex != slides.length - 1 ?'Skip': 'Launch',
                 style: getRegularStyle(
                   color: ColorManager.primaryColor,
                   fontSize: FontSize.s14,
