@@ -46,15 +46,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   }
 
   void toNextSlide() {
-    setState(() {
-      currentSlideIndex += 1;
-    });
+    var page = currentSlideIndex += 1;
+    _pageController.animateToPage(page, duration: const Duration(seconds:3), curve: Curves.easeIn);
   }
 
   void toPreviousSlide() {
-    setState(() {
-      currentSlideIndex -= 1;
-    });
+    var page = currentSlideIndex -= 1;
+    _pageController.animateToPage(page, duration: const  Duration(seconds:3), curve: Curves.easeIn);
   }
 
   @override
