@@ -2,7 +2,7 @@ const String assetPath = "assets/images";
 
 
 class ImageAsset{
-  static const splashImage = '$assetPath/splash_logo.png';
+  static const splashImage = '$assetPath/splash.png';
   static const unknownRouteImage = '$assetPath/404.png';
   static const onBoardingImage1 = '$assetPath/sp1.png';
   static const onBoardingImage2 = '$assetPath/sp2.png';

@@ -103,6 +103,7 @@ ThemeData getAppTheme() {
       ),
       systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
+        statusBarBrightness: Brightness.dark
       ),
     ),
 

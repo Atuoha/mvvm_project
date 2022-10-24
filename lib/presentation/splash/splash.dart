@@ -6,6 +6,10 @@ import 'package:mvvm_project/presentation/resources/route_manager.dart';
 
 import '../resources/assets_manager.dart';
 import '../resources/color_manager.dart';
+import '../resources/font_manager.dart';
+import '../resources/string_manager.dart';
+import '../resources/styles_manager.dart';
+import '../resources/values_manager.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -29,14 +33,27 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          systemNavigationBarColor: ColorManager.primaryOpacity),
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: ColorManager.primaryOpacity,
+        statusBarBrightness: Brightness.dark,
+      ),
     );
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: ColorManager.primaryColor,
-      body: Center(
-        child: Image.asset(ImageAsset.splashImage),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(ImageAsset.splashImage),
+          const SizedBox(height: AppSize.s4),
+          Text(
+            AppString.appName,
+            style: getBoldStyle(
+              color: ColorManager.white,
+              fontSize: FontSize.s28,
+            ),
+          ),
+        ],
       ),
     );
   }
