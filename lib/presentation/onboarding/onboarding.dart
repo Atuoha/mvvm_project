@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../components/bottomsheet_widget.dart';
 import '../components/onboarding_page.dart';
-import '../components/slider_object.dart';
+import '../../domain/models/slider_object.dart';
 import '../resources/assets_manager.dart';
 import '../resources/string_manager.dart';
 
@@ -63,8 +63,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
   }
 
-  void launch(){
+  void launch() {
     Navigator.of(context).pushReplacementNamed('');
+
+    @override
+    void dispose() {
+      // TODO: implement view.dispose()
+      super.dispose();
+    }
   }
 
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'slider_object.dart';
+import '../../domain/models/slider_object.dart';
 import '../resources/values_manager.dart';
 
 class OnBoardingPage extends StatelessWidget {
