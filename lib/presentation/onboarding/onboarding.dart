@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mvvm_project/presentation/onboarding/onboarding_view_model.dart';
 import '../components/bottomsheet_widget.dart';
 import '../components/onboarding_page.dart';
-import '../../domain/models/slider_object.dart';
-import '../resources/assets_manager.dart';
-import '../resources/string_manager.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -13,88 +11,59 @@ class OnBoardingScreen extends StatefulWidget {
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
-  var currentSlideIndex = 0;
   final PageController _pageController = PageController(initialPage: 0);
+  final OnBoardingViewModel _viewModel = OnBoardingViewModel();
 
-  final List<SliderObject> slides = [
-    SliderObject(
-      title: AppString.onBoardingTitle1,
-      subTitle: AppString.onBoardingSubTitle1,
-      imgUrl: ImageAsset.onBoardingImage1,
-    ),
-    SliderObject(
-      title: AppString.onBoardingTitle2,
-      subTitle: AppString.onBoardingSubTitle2,
-      imgUrl: ImageAsset.onBoardingImage2,
-    ),
-    SliderObject(
-      title: AppString.onBoardingTitle3,
-      subTitle: AppString.onBoardingSubTitle3,
-      imgUrl: ImageAsset.onBoardingImage3,
-    ),
-    SliderObject(
-      title: AppString.onBoardingTitle4,
-      subTitle: AppString.onBoardingSubTitle4,
-      imgUrl: ImageAsset.onBoardingImage4,
-    ),
-  ];
-
-  void skipOnBoarding() {
-    setState(() {
-      currentSlideIndex = slides.length - 1;
-    });
+  _bind() {
+    _viewModel.start();
   }
 
-  void toNextSlide() {
-    var page = currentSlideIndex += 1;
-    _pageController.animateToPage(
-      page,
-      duration: const Duration(seconds: 2),
-      curve: Curves.easeIn,
-    );
+  _stop() {
+    _viewModel.dispose();
   }
 
-  void toPreviousSlide() {
-    var page = currentSlideIndex -= 1;
-    _pageController.animateToPage(
-      page,
-      duration: const Duration(seconds: 2),
-      curve: Curves.easeIn,
-    );
+  @override
+  void initState() {
+    _bind();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _stop();
+    super.dispose();
   }
 
   void launch() {
     Navigator.of(context).pushReplacementNamed('');
-
-    @override
-    void dispose() {
-      // TODO: implement view.dispose()
-      super.dispose();
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder<SliderViewObject>(
+      stream: _viewModel.outputSliderViewObject,
+      builder: (context, AsyncSnapshot<SliderViewObject> snapshot) =>
+          _getContent(snapshot.data),
+    );
+  }
+
+  Widget _getContent(SliderViewObject? sliderViewObject) {
     return Scaffold(
       body: PageView.builder(
         controller: _pageController,
-        onPageChanged: (value) {
-          setState(() {
-            currentSlideIndex = value;
-          });
+        onPageChanged: (index) {
+          _viewModel.onPageChanged(index);
         },
-        itemCount: slides.length,
+        itemCount: sliderViewObject!.numOfSlides,
         itemBuilder: (context, index) => OnBoardingPage(
-          slides: slides,
-          currentSlideIndex: currentSlideIndex,
+          slide: sliderViewObject.sliderObject,
         ),
       ),
       bottomSheet: BottomSheetWidget(
-        slides: slides,
-        currentSlideIndex: currentSlideIndex,
-        skipOnBoarding: skipOnBoarding,
-        toPreviousSlide: toPreviousSlide,
-        toNextSlide: toNextSlide,
+        slidesCount: _viewModel.slidesCount,
+        currentSlideIndex: _viewModel.currentSlideIndex,
+        pageController: _pageController,
+        viewModel: _viewModel,
         launch: launch,
       ),
     );

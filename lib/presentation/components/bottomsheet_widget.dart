@@ -1,6 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import '../../domain/models/slider_object.dart';
+import '../onboarding/onboarding_view_model.dart';
 import '../resources/color_manager.dart';
 import '../resources/font_manager.dart';
 import '../resources/styles_manager.dart';
@@ -9,20 +10,40 @@ import '../resources/values_manager.dart';
 class BottomSheetWidget extends StatelessWidget {
   const BottomSheetWidget({
     super.key,
-    required this.slides,
+    required this.slidesCount,
     required this.currentSlideIndex,
-    required this.skipOnBoarding,
-    required this.toPreviousSlide,
-    required this.toNextSlide,
+    required this.viewModel,
+    required this.pageController,
     required this.launch,
   });
 
-  final List<SliderObject> slides;
+  final int slidesCount;
   final int currentSlideIndex;
-  final Function skipOnBoarding;
-  final Function toNextSlide;
-  final Function toPreviousSlide;
+  final OnBoardingViewModel viewModel;
+  final PageController pageController;
   final Function launch;
+
+  void skipOnBoarding() {
+    viewModel.skipOnBoarding();
+  }
+
+  void toNextSlide() {
+    var page = viewModel.toNextSlide();
+    pageController.animateToPage(
+      page,
+      duration: const Duration(seconds: 2),
+      curve: Curves.easeIn,
+    );
+  }
+
+  void toPreviousSlide() {
+    var page = viewModel.toPreviousSlide();
+    pageController.animateToPage(
+      page,
+      duration: const Duration(seconds: 2),
+      curve: Curves.easeIn,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +54,11 @@ class BottomSheetWidget extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
-              onPressed: () =>  currentSlideIndex != slides.length - 1?skipOnBoarding(): launch(),
+              onPressed: () => currentSlideIndex != slidesCount - 1
+                  ? skipOnBoarding()
+                  : launch(),
               child: Text(
-                currentSlideIndex != slides.length - 1 ?'Skip': 'Launch',
+                currentSlideIndex != slidesCount - 1 ? 'Skip' : 'Launch',
                 style: getRegularStyle(
                   color: ColorManager.primaryColor,
                   fontSize: FontSize.s14,
@@ -59,14 +82,14 @@ class BottomSheetWidget extends StatelessWidget {
                         )
                       : const SizedBox.shrink(),
                   DotsIndicator(
-                    dotsCount: slides.length,
+                    dotsCount: slidesCount,
                     position: double.parse(currentSlideIndex.toString()),
                     decorator: const DotsDecorator(
                       activeColor: Colors.white,
                       color: Colors.white70,
                     ),
                   ),
-                  currentSlideIndex != slides.length - 1
+                  currentSlideIndex != slidesCount - 1
                       ? IconButton(
                           onPressed: () => toNextSlide(),
                           icon: Icon(

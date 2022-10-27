@@ -5,12 +5,10 @@ import '../resources/values_manager.dart';
 class OnBoardingPage extends StatelessWidget {
   const OnBoardingPage({
     Key? key,
-    required this.slides,
-    required this.currentSlideIndex,
+    required this.slide,
   }) : super(key: key);
 
-  final List<SliderObject> slides;
-  final int currentSlideIndex;
+  final SliderObject slide;
 
   @override
   Widget build(BuildContext context) {
@@ -18,16 +16,16 @@ class OnBoardingPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          slides[currentSlideIndex].title,
+          slide.title,
           style: Theme.of(context).textTheme.headline1,
         ),
         const SizedBox(height: AppSize.s12),
         Text(
-          slides[currentSlideIndex].subTitle,
+          slide.subTitle,
           style: Theme.of(context).textTheme.subtitle1,
         ),
         const SizedBox(height: AppSize.s12),
-        Image.asset(slides[currentSlideIndex].imgUrl),
+        Image.asset(slide.imgUrl),
       ],
     );
   }
