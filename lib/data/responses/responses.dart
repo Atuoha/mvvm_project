@@ -11,7 +11,7 @@ class BaseResponse {
 }
 
 @JsonSerializable()
-class CustomerResponse {
+class CustomerResponse extends BaseResponse{
   @JsonKey(name: "id")
   String? id;
   @JsonKey(name: "name")
@@ -30,7 +30,7 @@ class CustomerResponse {
 }
 
 @JsonSerializable()
-class ContactResponse {
+class ContactResponse extends BaseResponse {
   @JsonKey(name: "phone")
   String? phone;
   @JsonKey(name: "link")
