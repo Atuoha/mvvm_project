@@ -42,6 +42,7 @@ dependencies:
   retrofit_generator: ^4.2.0
   json_annotation: ^4.7.0
   json_serializable: ^6.5.4
+  dartz: ^0.10.1
 
 
 dev_dependencies:
