@@ -45,6 +45,7 @@ dependencies:
   dartz: ^0.10.1
   data_connection_checker: ^0.3.4
   pretty_dio_logger: ^1.2.0-beta-1
+  shared_preferences: ^0.5.5
 
 
 dev_dependencies:
