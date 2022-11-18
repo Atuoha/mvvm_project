@@ -3,7 +3,7 @@ import 'package:mvvm_project/data/mapper/mapper.dart';
 import 'package:mvvm_project/data/network/failure.dart';
 import 'package:mvvm_project/data/requests/requests.dart';
 import 'package:mvvm_project/domain/models/authentication.dart';
-import 'package:mvvm_project/domain/repository.dart';
+import 'package:mvvm_project/domain/repository/repository.dart';
 
 import '../data_source/remote_data_source.dart';
 import '../network/error_handler.dart';
