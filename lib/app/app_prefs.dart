@@ -20,7 +20,7 @@ class AppPreferences {
     }
   }
 
-  Future<String> setAppLang(String language) async {
-   _sharedPreferences.setString(PREF_APP_LANG, language);
-  }
+  // Future<String> setAppLang(String language) async {
+  //  _sharedPreferences.setString(PREF_APP_LANG, language);
+  // }
 }
