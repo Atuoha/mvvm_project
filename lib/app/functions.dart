@@ -11,17 +11,20 @@ Future<DeviceInfo> getDeviceInfo() async {
   DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   try {
     if (Platform.isAndroid) {
+      // return android device infoø
       var build = await deviceInfoPlugin.androidInfo;
       name = "${build.brand} ${build.model}";
       version = build.version.toString();
       identifier = build.androidId!;
     } else if (Platform.isIOS) {
+      // return ios device info
       var build = await deviceInfoPlugin.iosInfo;
       name = "${build.name} ${build.model}";
       version = build.systemVersion!;
       identifier = build.identifierForVendor!;
     }
   } on PlatformException {
+    // return default
     return DeviceInfo(name, identifier, version);
   }
   return DeviceInfo(name, identifier, version);
