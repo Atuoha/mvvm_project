@@ -9,7 +9,6 @@ import 'package:mvvm_project/domain/usecase/base_usecase.dart';
 
 class LoginUseCase implements BaseUseCase<LoginUseCaseInput, Authentication> {
   final Repository _repository;
-
   LoginUseCase(this._repository);
 
   @override
