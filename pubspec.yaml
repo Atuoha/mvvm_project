@@ -47,6 +47,7 @@ dependencies:
   pretty_dio_logger: ^1.2.0-beta-1
   shared_preferences: ^0.5.5
   device_info_plus: ^2.0.0
+  freezed: ^2.2.1
 
 
 dev_dependencies:
