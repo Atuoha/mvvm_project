@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mvvm_project/presentation/onboarding/onboarding_view_model.dart';
 import '../components/bottomsheet_widget.dart';
 import '../components/onboarding_page.dart';
+import '../resources/route_manager.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -35,7 +36,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   }
 
   void launch() {
-    Navigator.of(context).pushReplacementNamed('');
+    Navigator.of(context).pushReplacementNamed(RouteManager.loginRoute);
   }
 
   @override

@@ -1,6 +1,5 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import '../../domain/models/slider_object.dart';
 import '../onboarding/onboarding_view_model.dart';
 import '../resources/color_manager.dart';
 import '../resources/font_manager.dart';
