@@ -37,7 +37,9 @@ class _LoginScreenState extends State<LoginScreen> {
     bind();
   }
 
-  login() {}
+  login() {
+    _loginViewModel.login();
+  }
 
   navigateToForgotPass() {}
 
@@ -71,66 +73,67 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: AppSize.s12),
             Form(
               key: _formKey,
-              child: Column(
-                children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: AppPadding.p28),
-                    child: StreamBuilder<bool>(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    StreamBuilder<bool>(
                       stream: _loginViewModel.outputIsUserNameValid,
                       builder: (context, snapshot) => TextFormField(
                         controller: _usernameController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
-                            hintText: 'Enter Username',
-                            labelText: 'Username',
-                            errorText: (snapshot.data ?? true)
-                                ? null
-                                : 'Username has error'),
+                          hintText: 'Enter Username',
+                          labelText: 'Username',
+                          errorText: (snapshot.data ?? true)
+                              ? null
+                              : 'Username has error',
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: AppPadding.p28),
-                    child: StreamBuilder<bool>(
+                    const SizedBox(height: 10),
+                    StreamBuilder<bool>(
                       stream: _loginViewModel.outputIsPasswordValid,
                       builder: (context, snapshot) => TextFormField(
                         keyboardType: TextInputType.visiblePassword,
                         controller: _passwordController,
                         decoration: InputDecoration(
-                            hintText: 'Enter Password',
-                            labelText: 'Password',
-                            errorText: (snapshot.data ?? true)
-                                ? null
-                                : 'Password has error'),
+                          hintText: 'Enter Password',
+                          labelText: 'Password',
+                          errorText: (snapshot.data ?? true)
+                              ? null
+                              : 'Password has error',
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: AppSize.s28),
-                  ElevatedButton(
-                    onPressed: () => login,
-                    child: const Text('Login'),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TextButton(
-                        onPressed: () => navigateToForgotPass(),
-                        child: const Text(
-                          'Forgot Password',
-                        ),
+                    const SizedBox(height: AppSize.s28),
+                    StreamBuilder<bool>(
+                      stream: _loginViewModel.outputIsAllInputsValid,
+                      builder: (context, snapshot) => ElevatedButton(
+                        onPressed:
+                            (snapshot.data ?? false) ?  () => login : null ,
+                        child: const Text('Login'),
                       ),
-                      TextButton(
-                        onPressed: () => navigateToSignUp(),
-                        child: const Text(
-                          'Not a member? Signup',
+                    ),
+                    const SizedBox(height: AppSize.s16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                          onPressed: () => navigateToForgotPass(),
+                          child: const Text(
+                            'Forgot Password',
+                          ),
                         ),
-                      )
-                    ],
-                  )
-                ],
+                        TextButton(
+                          onPressed: () => navigateToSignUp(),
+                          child: const Text(
+                            'Not a member? Signup',
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ],
