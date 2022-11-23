@@ -93,17 +93,16 @@ class LoginViewModel extends BaseViewModel
       _isAllInputsValidController.stream.map((_) => _isAllInputsValid());
 
   // functions
-
-  _validate(){
+  _validate() {
     _isAllInputsValidController.add(null);
   }
 
   bool validatePassword(String password) {
-    return password.isNotEmpty && password.length < 8;
+    return password.isNotEmpty;
   }
 
   bool validateUsername(String username) {
-    return username.isNotEmpty && username.length < 3;
+    return username.isNotEmpty;
   }
 
   bool _isAllInputsValid() {

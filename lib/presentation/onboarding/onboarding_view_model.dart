@@ -40,8 +40,9 @@ class OnBoardingViewModel extends BaseViewModel
   }
 
   @override
-  void skipOnBoarding() {
+  int skipOnBoarding() {
     currentSlideIndex = slidesCount - 1;
+    return currentSlideIndex;
   }
 
   @override

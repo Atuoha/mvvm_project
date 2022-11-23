@@ -55,9 +55,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         onPageChanged: (index) {
           _viewModel.onPageChanged(index);
         },
-        itemCount: sliderViewObject!.numOfSlides,
+        itemCount: sliderViewObject?.numOfSlides,
         itemBuilder: (context, index) => OnBoardingPage(
-          slide: sliderViewObject.sliderObject,
+          slide: sliderViewObject!.sliderObject,
         ),
       ),
       bottomSheet: BottomSheetWidget(
