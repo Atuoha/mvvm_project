@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print
-
 import 'dart:async';
 import 'package:mvvm_project/domain/usecase/login_usecase.dart';
 import 'package:mvvm_project/presentation/base/baseview.dart';
@@ -12,6 +11,9 @@ class LoginViewModel extends BaseViewModel
   final StreamController _passwordStreamController =
       StreamController<String>.broadcast();
 
+  final StreamController _isAllInputsValidController =
+      StreamController<void>.broadcast();
+
   var loginObject = LoginObject("", "");
   final LoginUseCase? _loginUseCase;
 
@@ -20,6 +22,7 @@ class LoginViewModel extends BaseViewModel
   @override
   void dispose() {
     _usernameStreamController.close();
+    _isAllInputsValidController.close();
     _passwordStreamController.close();
   }
 
@@ -34,6 +37,10 @@ class LoginViewModel extends BaseViewModel
 
   @override
   Sink get inputUsername => _usernameStreamController.sink;
+
+  @override
+  // TODO: implement inputIsAllValid
+  Sink get inputIsAllValid => _isAllInputsValidController.sink;
 
   @override
   login() async {
@@ -58,12 +65,14 @@ class LoginViewModel extends BaseViewModel
   setPassword(String password) {
     inputPassword.add(password);
     loginObject = loginObject.copyWith(password: password);
+    _validate();
   }
 
   @override
   setUserName(String username) {
     inputUsername.add(username);
     loginObject = loginObject.copyWith(username: username);
+    _validate();
   }
 
   //Outputs
@@ -79,13 +88,27 @@ class LoginViewModel extends BaseViewModel
         (username) => validateUsername(username),
       );
 
+  @override
+  Stream<bool> get outputIsAllInputsValid =>
+      _isAllInputsValidController.stream.map((_) => _isAllInputsValid());
+
   // functions
+
+  _validate(){
+    _isAllInputsValidController.add(null);
+  }
+
   bool validatePassword(String password) {
     return password.isNotEmpty && password.length < 8;
   }
 
   bool validateUsername(String username) {
     return username.isNotEmpty && username.length < 3;
+  }
+
+  bool _isAllInputsValid() {
+    return validatePassword(loginObject.password) &&
+        validateUsername(loginObject.username);
   }
 }
 
@@ -101,10 +124,14 @@ abstract class LoginViewModelInputs {
   Sink get inputUsername;
 
   Sink get inputPassword;
+
+  Sink get inputIsAllValid;
 }
 
 abstract class LoginViewModelOutputs {
   Stream<bool> get outputIsUserNameValid;
+
+  Stream<bool> get outputIsAllInputsValid;
 
   Stream<bool> get outputIsPasswordValid;
 }
