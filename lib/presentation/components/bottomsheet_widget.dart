@@ -23,7 +23,12 @@ class BottomSheetWidget extends StatelessWidget {
   final Function launch;
 
   void skipOnBoarding() {
-    viewModel.skipOnBoarding();
+    var page = viewModel.skipOnBoarding();
+    pageController.animateToPage(
+      page,
+      duration: const Duration(seconds: 2),
+      curve: Curves.easeIn,
+    );
   }
 
   void toNextSlide() {

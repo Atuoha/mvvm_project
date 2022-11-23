@@ -20,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  var passwordObscure = true;
 
   bind() {
     _loginViewModel.start();
@@ -59,84 +60,107 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: const EdgeInsets.only(
           top: AppPadding.p100,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(ImageAsset.splashImage),
-            Text(
-              AppString.appName,
-              style: getBoldStyle(
-                color: ColorManager.primaryColor,
-                fontSize: FontSize.s18,
-              ),
-            ),
-            const SizedBox(height: AppSize.s12),
-            Form(
-              key: _formKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    StreamBuilder<bool>(
-                      stream: _loginViewModel.outputIsUserNameValid,
-                      builder: (context, snapshot) => TextFormField(
-                        controller: _usernameController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          hintText: 'Enter Username',
-                          labelText: 'Username',
-                          errorText: (snapshot.data ?? true)
-                              ? null
-                              : 'Username has error',
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    StreamBuilder<bool>(
-                      stream: _loginViewModel.outputIsPasswordValid,
-                      builder: (context, snapshot) => TextFormField(
-                        keyboardType: TextInputType.visiblePassword,
-                        controller: _passwordController,
-                        decoration: InputDecoration(
-                          hintText: 'Enter Password',
-                          labelText: 'Password',
-                          errorText: (snapshot.data ?? true)
-                              ? null
-                              : 'Password has error',
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: AppSize.s28),
-                    StreamBuilder<bool>(
-                      stream: _loginViewModel.outputIsAllInputsValid,
-                      builder: (context, snapshot) => ElevatedButton(
-                        onPressed:
-                            (snapshot.data ?? false) ?  () => login : null ,
-                        child: const Text('Login'),
-                      ),
-                    ),
-                    const SizedBox(height: AppSize.s16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextButton(
-                          onPressed: () => navigateToForgotPass(),
-                          child: const Text(
-                            'Forgot Password',
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () => navigateToSignUp(),
-                          child: const Text(
-                            'Not a member? Signup',
-                          ),
-                        )
-                      ],
-                    )
-                  ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(ImageAsset.splashImage),
+              Text(
+                '${AppString.appName} Sign in',
+                style: getBoldStyle(
+                  color: ColorManager.primaryColor,
+                  fontSize: FontSize.s18,
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: AppSize.s12),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppPadding.p28),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      StreamBuilder<bool>(
+                        stream: _loginViewModel.outputIsUserNameValid,
+                        builder: (context, snapshot) => TextFormField(
+                          controller: _usernameController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            hintText: 'Enter Username',
+                            labelText: 'Username',
+                            errorText: (snapshot.data ?? true)
+                                ? null
+                                : 'Username has error',
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      StreamBuilder<bool>(
+                        stream: _loginViewModel.outputIsPasswordValid,
+                        builder: (context, snapshot) => TextFormField(
+                          keyboardType: TextInputType.visiblePassword,
+                          controller: _passwordController,
+                          obscureText: passwordObscure,
+                          decoration: InputDecoration(
+                            suffixIcon: _passwordController.text.isNotEmpty
+                                ? IconButton(
+                                    onPressed: () => setState(() {
+                                      passwordObscure = !passwordObscure;
+                                    }),
+                                    icon: Icon(
+                                      passwordObscure
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                    ),
+                                  )
+                                : const SizedBox.shrink(),
+                            hintText: 'Enter Password',
+                            labelText: 'Password',
+                            errorText: (snapshot.data ?? true)
+                                ? null
+                                : 'Password has error',
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: AppSize.s28),
+                      StreamBuilder<bool>(
+                        stream: _loginViewModel.outputIsAllInputsValid,
+                        builder: (context, snapshot) => ElevatedButton(
+                          onPressed:
+                              (snapshot.data ?? false) ? () => login : null,
+                          child: const Text('Login'),
+                        ),
+                      ),
+                      const SizedBox(height: AppSize.s12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(
+                            onPressed: () => navigateToForgotPass(),
+                            child: Text(
+                              'Forgot Password',
+                              style: getRegularStyle(
+                                color: ColorManager.primaryColor,
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () => navigateToSignUp(),
+                            child: Text(
+                              'Not a member? Signup',
+                              style: getRegularStyle(
+                                color: ColorManager.primaryColor,
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

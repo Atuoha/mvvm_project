@@ -13,14 +13,12 @@ ThemeData getAppTheme() {
     disabledColor: ColorManager.grey1,
     splashColor: ColorManager.primaryOpacity,
 
-
     // card theme
     cardTheme: CardTheme(
       color: ColorManager.white,
       shadowColor: ColorManager.grey,
       elevation: AppSize.s4,
     ),
-
 
     // button theme
     buttonTheme: ButtonThemeData(
@@ -30,32 +28,34 @@ ThemeData getAppTheme() {
       splashColor: ColorManager.primaryOpacity,
     ),
 
-
     // elevated button theme
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSize.s12),
         ),
+        padding: const EdgeInsets.symmetric(vertical: AppSize.s12),
         backgroundColor: ColorManager.primaryColor,
-        textStyle: getRegularStyle(color: ColorManager.white),
+        textStyle: getRegularStyle(
+          color: ColorManager.white,
+          fontSize: FontSize.s20,
+        ),
       ),
     ),
-
 
     // input decoration theme
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(AppSize.s8),
         borderSide: BorderSide(
-          color: ColorManager.grey,
+          color: ColorManager.liteGrey,
           width: AppSize.s2,
         ),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(AppSize.s8),
         borderSide: BorderSide(
-          color: ColorManager.grey,
+          color: ColorManager.liteGrey,
           width: AppSize.s2,
         ),
       ),
@@ -90,7 +90,6 @@ ThemeData getAppTheme() {
       prefixStyle: getRegularStyle(color: ColorManager.grey1),
     ),
 
-
     // app bar theme
     appBarTheme: AppBarTheme(
       color: ColorManager.primaryColor,
@@ -102,11 +101,9 @@ ThemeData getAppTheme() {
         fontSize: FontSize.s16,
       ),
       systemOverlayStyle: const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarBrightness: Brightness.dark
-      ),
+          statusBarColor: Colors.transparent,
+          statusBarBrightness: Brightness.dark),
     ),
-
 
     // text theme
     textTheme: TextTheme(
