@@ -1,10 +1,18 @@
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
+import 'package:mvvm_project/data/data_source/remote_data_source.dart';
+import 'package:mvvm_project/data/network/app_api.dart';
+import 'package:mvvm_project/data/network/network_info.dart';
+import 'package:mvvm_project/domain/repository/repository.dart';
+import 'package:mvvm_project/domain/usecase/login_usecase.dart';
 import 'package:mvvm_project/presentation/authentication/login/login_viewmodel.dart';
 import 'package:mvvm_project/presentation/resources/values_manager.dart';
 
+import '../../../data/repository/repository_impl.dart';
 import '../../resources/assets_manager.dart';
 import '../../resources/color_manager.dart';
 import '../../resources/font_manager.dart';
+import '../../resources/route_manager.dart';
 import '../../resources/string_manager.dart';
 import '../../resources/styles_manager.dart';
 
@@ -16,6 +24,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final DataConnectionChecker _dataConnectionChecker = DataConnectionChecker();
+  final AppServiceClient _appServiceClient = AppServiceClient();
+  final NetworkInfo _networkInfo = NetworkInfoImplementer(_dataConnectionChecker);
+  final RemoteDataSource _remoteDataSource = RemoteDataSourceImplementer(_appServiceClient);
+  final Repository _repository =  RespositoryImpl(_remoteDataSource, _networkInfo);
+  final LoginUseCase loginUseCase =  LoginUseCase(_repository);
   final LoginViewModel _loginViewModel = LoginViewModel(null);
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
@@ -42,9 +56,13 @@ class _LoginScreenState extends State<LoginScreen> {
     _loginViewModel.login();
   }
 
-  navigateToForgotPass() {}
+  navigateToForgotPass() {
+    Navigator.of(context).pushNamed(RouteManager.forgotPasswordRoute);
+  }
 
-  navigateToSignUp() {}
+  navigateToSignUp() {
+    Navigator.of(context).pushNamed(RouteManager.registerRoute);
+  }
 
   @override
   void dispose() {
