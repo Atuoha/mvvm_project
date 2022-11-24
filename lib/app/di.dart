@@ -7,6 +7,8 @@ import 'package:mvvm_project/data/network/dio_factory.dart';
 import 'package:mvvm_project/data/network/network_info.dart';
 import 'package:mvvm_project/data/repository/repository_impl.dart';
 import 'package:mvvm_project/domain/repository/repository.dart';
+import 'package:mvvm_project/domain/usecase/login_usecase.dart';
+import 'package:mvvm_project/presentation/authentication/login/login_viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final instance = GetIt.instance;
@@ -56,4 +58,11 @@ Future<void> initAppModule() async {
       instance<NetworkInfo>(),
     ),
   );
+}
+
+initLoginModule() {
+  if (!GetIt.I.isRegistered<LoginUseCase>()) {
+    instance.registerFactory<LoginUseCase>(() => LoginUseCase(instance()));
+    instance.registerFactory<LoginViewModel>(() => LoginViewModel(instance()));
+  }
 }

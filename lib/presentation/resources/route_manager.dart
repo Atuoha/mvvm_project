@@ -8,6 +8,7 @@ import 'package:mvvm_project/presentation/resources/string_manager.dart';
 import 'package:mvvm_project/presentation/splash/splash.dart';
 import '../onboarding/onboarding.dart';
 import 'assets_manager.dart';
+import 'package:mvvm_project/app/di.dart';
 
 class RouteManager {
   static const splashRoute = '/';
@@ -33,6 +34,7 @@ class RouteGenerator {
         );
 
       case RouteManager.loginRoute:
+        initLoginModule();
         return MaterialPageRoute(
           builder: (_) => const LoginScreen(),
         );
