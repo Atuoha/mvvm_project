@@ -1,14 +1,7 @@
-import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
-import 'package:mvvm_project/data/data_source/remote_data_source.dart';
-import 'package:mvvm_project/data/network/app_api.dart';
-import 'package:mvvm_project/data/network/network_info.dart';
-import 'package:mvvm_project/domain/repository/repository.dart';
-import 'package:mvvm_project/domain/usecase/login_usecase.dart';
 import 'package:mvvm_project/presentation/authentication/login/login_viewmodel.dart';
 import 'package:mvvm_project/presentation/resources/values_manager.dart';
-
-import '../../../data/repository/repository_impl.dart';
+import '../../../app/di.dart';
 import '../../resources/assets_manager.dart';
 import '../../resources/color_manager.dart';
 import '../../resources/font_manager.dart';
@@ -24,13 +17,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final DataConnectionChecker _dataConnectionChecker = DataConnectionChecker();
-  final AppServiceClient _appServiceClient = AppServiceClient();
-  final NetworkInfo _networkInfo = NetworkInfoImplementer(_dataConnectionChecker);
-  final RemoteDataSource _remoteDataSource = RemoteDataSourceImplementer(_appServiceClient);
-  final Repository _repository =  RespositoryImpl(_remoteDataSource, _networkInfo);
-  final LoginUseCase loginUseCase =  LoginUseCase(_repository);
-  final LoginViewModel _loginViewModel = LoginViewModel(null);
+  final LoginViewModel _loginViewModel = instance<LoginViewModel>();
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -103,6 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         builder: (context, snapshot) => TextFormField(
                           controller: _usernameController,
                           keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             hintText: 'Enter Username',
                             labelText: 'Username',
@@ -145,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         stream: _loginViewModel.outputIsAllInputsValid,
                         builder: (context, snapshot) => ElevatedButton(
                           onPressed:
-                              (snapshot.data ?? false) ? () => login : null,
+                              (snapshot.data ?? false) ? () => login() : null,
                           child: const Text('Login'),
                         ),
                       ),
