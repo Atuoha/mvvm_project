@@ -1,7 +1,6 @@
 // ignore_for_file: constant_identifier_names, must_be_immutable
 
 import 'package:flutter/material.dart';
-
 import '../../../data/network/failure.dart';
 import '../../resources/font_manager.dart';
 import '../../resources/string_manager.dart';
@@ -22,7 +21,7 @@ class StateRenderer extends StatelessWidget {
   Failure failure;
   String message;
   String title;
-  Function retryActionFunction;
+  Function? retryActionFunction;
 
   StateRenderer({
     Key? key,
@@ -39,7 +38,7 @@ class StateRenderer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _getStateScreen(),
+      body: _getStateScreen(context),
     );
   }
 
@@ -61,9 +60,64 @@ class StateRenderer extends StatelessWidget {
     );
   }
 
-  Widget _getStateScreen() {
+  Widget _getRetryButton(String buttonTitle, BuildContext context) {
+    return SizedBox(
+      width: AppSize.s180,
+      child: ElevatedButton(
+        onPressed: () {
+          if (stateRendererType == StateRendererType.FULL_SCREEN_ERROR_STATE) {
+            retryActionFunction?.call();
+          } else {
+            Navigator.of(context).pop();
+          }
+        },
+        child: Text(
+          buttonTitle,
+          style: getRegularStyle(color: Colors.white),
+        ),
+      ),
+    );
+  }
+
+  Widget _getPopupDialong(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppPadding.p14),
+      ),
+      elevation: AppSize.s2,
+      backgroundColor: Colors.transparent,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppPadding.p14),
+          color: Colors.white,
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black54,
+              blurRadius: AppSize.s12,
+              offset: Offset(AppSize.s0, AppSize.s12),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _getStateScreen(BuildContext context) {
     switch (stateRendererType) {
+      case StateRendererType.CONTENT_SCREEN_STATE:
+        return _getItemsOnColumn(
+          children: [],
+        );
+
       case StateRendererType.EMPTY_SCREEN_STATE:
+        return _getItemsOnColumn(
+          children: [
+            _getAnimatedImage(),
+            _getMessage(message),
+          ],
+        );
+
+      case StateRendererType.POPUP_LOADING_STATE:
         return _getItemsOnColumn(
           children: [],
         );
@@ -72,24 +126,21 @@ class StateRenderer extends StatelessWidget {
           children: [],
         );
 
-      case StateRendererType.FULL_SCREEN_ERROR_STATE:
-        return _getItemsOnColumn(
-          children: [],
-        );
-
-      case StateRendererType.POPUP_LOADING_STATE:
-        return _getItemsOnColumn(
-          children: [],
-        );
-
-      case StateRendererType.CONTENT_SCREEN_STATE:
-        return _getItemsOnColumn(
-          children: [],
-        );
-
       case StateRendererType.FULL_SCREEN_LOADING_STATE:
         return _getItemsOnColumn(
-          children: [],
+          children: [
+            _getAnimatedImage(),
+            _getMessage(message),
+          ],
+        );
+
+      case StateRendererType.FULL_SCREEN_ERROR_STATE:
+        return _getItemsOnColumn(
+          children: [
+            _getAnimatedImage(),
+            _getMessage(failure.message),
+            _getRetryButton("Retry again", context)
+          ],
         );
 
       default:
@@ -98,10 +149,13 @@ class StateRenderer extends StatelessWidget {
   }
 
   Widget _getItemsOnColumn({required List<Widget> children}) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: children,
+    return Padding(
+      padding: const EdgeInsets.all(AppPadding.p18),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: children,
+      ),
     );
   }
 }
