@@ -11,4 +11,6 @@ class AppString{
   static const onBoardingSubTitle3 = "the ability to learn is possessed by humans";
   static const onBoardingSubTitle4 = "a process that leads to change, which incurs growth";
 
+
+  static const loading = "...loading please wait";
 }
