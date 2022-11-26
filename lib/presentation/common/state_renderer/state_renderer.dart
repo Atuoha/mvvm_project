@@ -79,7 +79,8 @@ class StateRenderer extends StatelessWidget {
     );
   }
 
-  Widget _getPopupDialong(BuildContext context) {
+  Widget _getPopupDialog(BuildContext context,
+      {required List<Widget> children}) {
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppPadding.p14),
@@ -98,16 +99,28 @@ class StateRenderer extends StatelessWidget {
             ),
           ],
         ),
+        child: _getDialogContent(
+          context,
+          children: children,
+        ),
       ),
+    );
+  }
+
+  Widget _getDialogContent(BuildContext context,
+      {required List<Widget> children}) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: children,
     );
   }
 
   Widget _getStateScreen(BuildContext context) {
     switch (stateRendererType) {
       case StateRendererType.CONTENT_SCREEN_STATE:
-        return _getItemsOnColumn(
-          children: [],
-        );
+        return Container();
 
       case StateRendererType.EMPTY_SCREEN_STATE:
         return _getItemsOnColumn(
@@ -118,12 +131,21 @@ class StateRenderer extends StatelessWidget {
         );
 
       case StateRendererType.POPUP_LOADING_STATE:
-        return _getItemsOnColumn(
-          children: [],
+        return _getPopupDialog(
+          context,
+          children: [
+            _getAnimatedImage(),
+          ],
         );
+
       case StateRendererType.POPUP_ERROR_STATE:
-        return _getItemsOnColumn(
-          children: [],
+        return _getPopupDialog(
+          context,
+          children: [
+            _getAnimatedImage(),
+            _getMessage('url not found, try again later'),
+            _getRetryButton('Ok', context)
+          ],
         );
 
       case StateRendererType.FULL_SCREEN_LOADING_STATE:
