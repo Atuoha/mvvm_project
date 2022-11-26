@@ -49,6 +49,7 @@ dependencies:
   device_info_plus: ^2.0.0
   freezed: ^2.2.1
   get_it: ^7.2.0
+  lottie: ^2.0.0
 
 
 dev_dependencies:
