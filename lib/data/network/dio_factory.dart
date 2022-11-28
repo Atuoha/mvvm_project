@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mvvm_project/app/constants.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-
 import '../../app/app_prefs.dart';
 
 const String APPLICATION_JSON = 'application/json';
@@ -43,7 +42,7 @@ class DioFactory {
     } else {
       dio.interceptors.add(
         PrettyDioLogger(
-          request: true,
+          // request: true,
           requestBody: true,
           requestHeader: true,
           responseHeader: true,
