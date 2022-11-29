@@ -1,7 +1,9 @@
 // ignore_for_file: constant_identifier_names, must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import '../../../data/network/failure.dart';
+import '../../resources/assets_manager.dart';
 import '../../resources/font_manager.dart';
 import '../../resources/string_manager.dart';
 import '../../resources/styles_manager.dart';
@@ -18,7 +20,6 @@ enum StateRendererType {
 
 class StateRenderer extends StatelessWidget {
   StateRendererType stateRendererType;
-  Failure failure;
   String message;
   String title;
   Function? retryActionFunction;
@@ -32,7 +33,6 @@ class StateRenderer extends StatelessWidget {
     required this.stateRendererType,
   })  : message = message ?? AppString.loading,
         title = title ?? "",
-        failure = failure ?? DefaultFailure(),
         super(key: key);
 
   @override
@@ -42,11 +42,11 @@ class StateRenderer extends StatelessWidget {
     );
   }
 
-  Widget _getAnimatedImage() {
+  Widget _getAnimatedImage(String animationName) {
     return SizedBox(
       height: AppSize.s100,
       width: AppSize.s100,
-      child: Image.asset(''),
+      child: Lottie.asset(animationName),
     );
   }
 
@@ -125,7 +125,7 @@ class StateRenderer extends StatelessWidget {
       case StateRendererType.EMPTY_SCREEN_STATE:
         return _getItemsOnColumn(
           children: [
-            _getAnimatedImage(),
+            _getAnimatedImage(JsonAsset.emptyImg),
             _getMessage(message),
           ],
         );
@@ -134,7 +134,7 @@ class StateRenderer extends StatelessWidget {
         return _getPopupDialog(
           context,
           children: [
-            _getAnimatedImage(),
+            _getAnimatedImage(JsonAsset.loadingImg),
           ],
         );
 
@@ -142,7 +142,7 @@ class StateRenderer extends StatelessWidget {
         return _getPopupDialog(
           context,
           children: [
-            _getAnimatedImage(),
+            _getAnimatedImage(JsonAsset.errorImg),
             _getMessage('url not found, try again later'),
             _getRetryButton('Ok', context)
           ],
@@ -151,7 +151,7 @@ class StateRenderer extends StatelessWidget {
       case StateRendererType.FULL_SCREEN_LOADING_STATE:
         return _getItemsOnColumn(
           children: [
-            _getAnimatedImage(),
+            _getAnimatedImage(JsonAsset.loadingImg),
             _getMessage(message),
           ],
         );
@@ -159,8 +159,8 @@ class StateRenderer extends StatelessWidget {
       case StateRendererType.FULL_SCREEN_ERROR_STATE:
         return _getItemsOnColumn(
           children: [
-            _getAnimatedImage(),
-            _getMessage(failure.message),
+            _getAnimatedImage(JsonAsset.errorImg),
+            _getMessage(message),
             _getRetryButton("Retry again", context)
           ],
         );
