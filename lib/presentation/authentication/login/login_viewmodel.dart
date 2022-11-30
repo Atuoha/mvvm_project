@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:mvvm_project/domain/usecase/login_usecase.dart';
 import 'package:mvvm_project/presentation/base/baseview.dart';
 import 'package:mvvm_project/presentation/common/freezed_data_classes.dart';
+import 'package:mvvm_project/presentation/common/state_renderer/state_renderer.dart';
+
+import '../../common/state_renderer/state_renderer_impl.dart';
 
 class LoginViewModel extends BaseViewModel
     with LoginViewModelInputs, LoginViewModelOutputs {
@@ -28,7 +31,7 @@ class LoginViewModel extends BaseViewModel
 
   @override
   void start() {
-    // TODO: implement start
+    inputState.add(ContentState());
   }
 
   //Inputs
@@ -44,6 +47,8 @@ class LoginViewModel extends BaseViewModel
 
   @override
   login() async {
+    inputState.add(
+        LoadingState(stateRendererType: StateRendererType.POPUP_LOADING_STATE));
     (await _loginUseCase.execute(
       LoginUseCaseInput(
         loginObject.username,
@@ -53,11 +58,12 @@ class LoginViewModel extends BaseViewModel
         .fold(
             (failure) => {
                   // left (failure)
-                  print(failure.message)
+                  inputState.add(ErrorState(
+                      StateRendererType.POPUP_ERROR_STATE, failure.message)),
                 },
             (data) => {
                   // right (authentication data -success)
-                  print(data.customer?.name)
+                  inputState.add(ContentState()),
                 });
   }
 
