@@ -65,7 +65,10 @@ class EmptyState extends FlowState {
 
 extension FlowStateExtension on FlowState {
   Widget getScreenWidget(
-      BuildContext context, Widget contentScreenWidget, Function retryFnc) {
+    BuildContext context,
+    Widget contentScreenWidget,
+    Function retryFnc,
+  ) {
     switch (runtimeType) {
       case LoadingState:
         if (getStateRendererType() == StateRendererType.POPUP_LOADING_STATE) {
@@ -74,23 +77,49 @@ extension FlowStateExtension on FlowState {
         } else {
           // StateRendererType.FULL_SCREEN_LOADING_STATE
           return StateRenderer(
-              retryActionFunction: retryFnc,
-              stateRendererType: getStateRendererType(),message: getMessage(),);
+            retryActionFunction: retryFnc,
+            stateRendererType: getStateRendererType(),
+            message: getMessage(),
+          );
         }
 
       case ErrorState:
-        break;
+        disMissDialog(context);
+        if (getStateRendererType() == StateRendererType.POPUP_ERROR_STATE) {
+          showPopUp(context, getStateRendererType(), getMessage());
+          return contentScreenWidget;
+        } else {
+          // StateRendererType.FULL_SCREEN_ERROR_STATE
+          return StateRenderer(
+            retryActionFunction: retryFnc,
+            stateRendererType: getStateRendererType(),
+            message: getMessage(),
+          );
+        }
 
       case ContentState:
-        break;
+        disMissDialog(context);
+        return contentScreenWidget;
 
       case EmptyState:
-        break;
+        return StateRenderer(
+          retryActionFunction: retryFnc,
+          stateRendererType: getStateRendererType(),
+        );
 
       default:
-        break;
+        return contentScreenWidget;
     }
   }
+
+  disMissDialog(BuildContext context) {
+    if (isThereACurrentPopUp(context)) {
+      Navigator.of(context, rootNavigator: true).pop(true);
+    }
+  }
+
+  isThereACurrentPopUp(BuildContext context) =>
+      ModalRoute.of(context)?.isCurrent != true;
 
   showPopUp(
     BuildContext context,
