@@ -41,6 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   login() {
+    FocusScope.of(context).unfocus();
     _loginViewModel.login();
   }
 
