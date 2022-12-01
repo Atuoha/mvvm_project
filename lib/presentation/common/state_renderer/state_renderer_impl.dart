@@ -122,17 +122,15 @@ extension FlowStateExtension on FlowState {
       ModalRoute.of(context)?.isCurrent != true;
 
   showPopUp(
-    BuildContext context,
-    StateRendererType stateRendererType,
-    String message,
-  ) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => StateRenderer(
-        retryActionFunction: () {},
-        stateRendererType: stateRendererType,
-        message: message,
-      ),
-    );
+      BuildContext context, StateRendererType stateRendererType, String message,
+      {String title = ""}) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) => showDialog(
+          context: context,
+          builder: (BuildContext context) => StateRenderer(
+            retryActionFunction: () {},
+            stateRendererType: stateRendererType,
+            message: message,
+          ),
+        ));
   }
 }
