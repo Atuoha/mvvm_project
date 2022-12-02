@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:mvvm_project/app/app_prefs.dart';
 import 'package:mvvm_project/presentation/authentication/login/login_viewmodel.dart';
 import 'package:mvvm_project/presentation/resources/values_manager.dart';
 import '../../../app/di.dart';
@@ -19,6 +21,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final LoginViewModel _loginViewModel = instance<LoginViewModel>();
+  final AppPreferences _appPreferences = instance<AppPreferences>();
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -32,6 +35,15 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.addListener(
       () => _loginViewModel.setPassword(_passwordController.text),
     );
+    _loginViewModel.isUserLoggedInSuccessfullyStreamController.stream
+        .listen((isLoggedSuccessfully) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        // setting user logged in
+        _appPreferences.setIsUserLoggedIn();
+        Navigator.of(context)
+            .pushReplacementNamed(RouteManager.mainScreenRoute);
+      });
+    });
   }
 
   @override

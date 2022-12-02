@@ -109,11 +109,14 @@ class StateRenderer extends StatelessWidget {
 
   Widget _getDialogContent(BuildContext context,
       {required List<Widget> children}) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: children,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: children,
+      ),
     );
   }
 
@@ -173,10 +176,12 @@ class StateRenderer extends StatelessWidget {
   Widget _getItemsOnColumn({required List<Widget> children}) {
     return Padding(
       padding: const EdgeInsets.all(AppPadding.p18),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: children,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: children,
+        ),
       ),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm_project/presentation/onboarding/onboarding_view_model.dart';
+import '../../app/app_prefs.dart';
+import '../../app/di.dart';
 import '../components/bottomsheet_widget.dart';
 import '../components/onboarding_page.dart';
 import '../resources/route_manager.dart';
@@ -14,6 +16,7 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final PageController _pageController = PageController(initialPage: 0);
   final OnBoardingViewModel _viewModel = OnBoardingViewModel();
+  final AppPreferences _appPreferences = instance<AppPreferences>();
 
   _bind() {
     _viewModel.start();
@@ -36,6 +39,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   }
 
   void launch() {
+    // setting onboarding screen viewed
+    _appPreferences.setOnBoardingScreenViewed();
     Navigator.of(context).pushReplacementNamed(RouteManager.loginRoute);
   }
 
